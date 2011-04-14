@@ -1,4 +1,6 @@
-%w(rubygems oa-oauth dm-core dm-sqlite-adapter dm-migrations sinatra).each { |dependency| require dependency }
+%w(rubygems oa-oauth dm-core dm-sqlite-adapter dm-migrations sanitize sinatra).each { |dependency| require dependency }
+
+require 'oauth_passwords'
 
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/database.db")
 
@@ -14,8 +16,7 @@ end
 DataMapper.finalize
 DataMapper.auto_upgrade!
 
-# You'll need to customize the following line. Replace the CONSUMER_KEY and CONSUMER_SECRET with the values you got from Twitter (https://dev.twitter.com/apps/new).
-use OmniAuth::Strategies::Twitter, 'CONSUMER_KEY', 'CONSUMER_SECRET'
+use OmniAuth::Strategies::Twitter, CONSUMER_KEY, CONSUMER_SECRET
 
 enable :sessions
 
@@ -27,12 +28,9 @@ end
 
 get '/' do
   if current_user
-    # the following line just tests to see that it's working. If you've logged in your first user, '/' should load: "1 ... 1"; You can then remove the following line, start using view templates, etc.
-    current_user.id.to_s + " ... " + session[:user_id].to_s 
+    erb :index
   else
-    '<a href="/sign_up">create an account</a> or <a href="/sign_in">sign in with Twitter</a>'
-    # if you replace the above line with the following line, the user gets signed in automatically. Could be useful. Could also break user expectations.
-    # redirect '/auth/twitter'
+    erb :index_public
   end
 end
 
@@ -57,3 +55,32 @@ end
     redirect '/'
   end
 end
+
+
+enable :inline_templates
+
+__END__
+
+@@ layout
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Page Title</title>
+    <style type="text/css">
+      html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{display:block}
+      body, button, input, select, textarea{font-family:'lucida grande', 'helvetica neue',helvetica,arial,sans-serif;font-size:12px;line-height:20px}td{border-top:1px solid #ccc;padding:0 10px}th{font-weight:bold}
+      body{margin:0 auto;width:960px;}
+    </style>
+  </head>
+  <body>
+  <div id="header"><h1>App Name</h1></div>
+<%= yield %>
+  </body>
+</html>
+
+@@ index
+    <p>This is the logged-in page.</p>
+
+@@ index_public
+    <a href="/sign_up">create an account</a> or <a href="/sign_in">sign in with Twitter</a>
