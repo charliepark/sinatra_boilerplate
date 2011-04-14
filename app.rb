@@ -1,6 +1,6 @@
-%w(rubygems oa-oauth dm-core dm-sqlite-adapter dm-migrations sanitize sinatra).each { |dependency| require dependency }
+%w(rubygems dm-core dm-migrations dm-sqlite-adapter oa-oauth sanitize sinatra).each { |dependency| require dependency }
 
-require 'oauth_passwords'
+require 'app/requirements'
 
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/database.db")
 
@@ -11,20 +11,16 @@ class User
   property :name,       String
   property :nickname,   String
   property :created_at, DateTime
+
+  @@admin_users = ADMIN_UIDS
+
+  def admin?
+    @@admin_users.include?(uid.to_s)
+  end
 end
 
 DataMapper.finalize
 DataMapper.auto_upgrade!
-
-use OmniAuth::Strategies::Twitter, CONSUMER_KEY, CONSUMER_SECRET
-
-enable :sessions
-
-helpers do
-  def current_user
-    @current_user ||= User.get(session[:user_id]) if session[:user_id]
-  end
-end
 
 get '/' do
   if current_user
@@ -33,29 +29,6 @@ get '/' do
     erb :index_public
   end
 end
-
-get '/auth/:name/callback' do
-  auth = request.env["omniauth.auth"]
-  user = User.first_or_create({ :uid => auth["uid"]}, { :uid => auth["uid"], :nickname => auth["user_info"]["nickname"], :name => auth["user_info"]["name"], :created_at => Time.now })
-  session[:user_id] = user.id
-  redirect '/'
-end
-
-# any of the following routes should work to sign the user in: /sign_up, /signup, /sign_in, /signin, /log_in, /login
-["/sign_in/?", "/signin/?", "/log_in/?", "/login/?", "/sign_up/?", "/signup/?"].each do |path|
-  get path do
-    redirect '/auth/twitter'
-  end
-end
-
-# either /log_out, /logout, /sign_out, or /signout will end the session and log the user out
-["/sign_out/?", "/signout/?", "/log_out/?", "/logout/?"].each do |path|
-  get path do
-    session[:user_id] = nil
-    redirect '/'
-  end
-end
-
 
 enable :inline_templates
 
