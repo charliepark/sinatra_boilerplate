@@ -1,0 +1,5 @@
+jQuery.fn.onloadEvents = function() {
+
+
+
+}
