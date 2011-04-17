@@ -1,0 +1,16 @@
+    <h3>Users</h3>
+    <p>There are <%= @users.count.to_s %> users.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Twitter ID</th><th>Nickname</th><th>Real Name</th>
+        </tr>
+      </thead>
+      <tbody>
+	<% @users.each do |user| %>
+        <tr>
+          <td><%= user.id %></td><td><%= user.uid %></td><td><a href="https://twitter.com/#!/<%= user.nickname %>"><%= user.nickname %></a></td><td><%= user.name %></td><td><img src="http://api.twitter.com/1/users/profile_image/charliepark.json" /></td>
+        </tr>
+<% end %>
+      </tbody>
+    </table>

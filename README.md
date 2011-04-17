@@ -1,12 +1,12 @@
 # Sinatra Boilerplate
 
-This is just a template I'm setting up for firing up Sinatra apps quickly. You're welcome to build on it, if you like.
+This is just a template I'm setting up for firing up Sinatra apps quickly. You're welcome to build on it, if you like. It's far from finished.
 
 ## Some General Notes
 
 Authentication is handled via [OmniAuth](https://github.com/intridea/omniauth), specifically using another template I created, [OmniAuth for Sinatra](https://github.com/charliepark/omniauth-for-sinatra). You'll need OAuth keys from a third-party, like Twitter.
 
-The app requires a file in the root directory, called 'config.rb'. This will need a few variables:
+The app requires a file in the ~/config directory, called 'config.rb'. This will need a few variables:
 * CONSUMER_KEY = <the consumer key for your OAuth provider>
 * CONSUMER_SECRET = <the consumer secret for your OAuth provider>
 * SECRET_CSRF_TOKEN = <some long and hard-to-guess string, used to protect from CSRF>

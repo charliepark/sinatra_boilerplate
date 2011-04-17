@@ -1,0 +1,6 @@
+<%= erb :'partials/header' %>
+  <body id="admin">
+  <div id="header"><h1>App Name</h1></div>
+  <div id="nav"><% if current_user and current_user.admin? %><a href="/admin">admin</a><% end %></div>
+<%= yield %>
+<%= erb :'partials/footer' %>
