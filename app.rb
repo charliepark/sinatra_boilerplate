@@ -43,7 +43,8 @@ __END__
     <style type="text/css">
       html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{display:block}
       body, button, input, select, textarea{font-family:'lucida grande', 'helvetica neue',helvetica,arial,sans-serif;font-size:12px;line-height:20px}td{border-top:1px solid #ccc;padding:0 10px}th{font-weight:bold}
-      body{margin:0 auto;width:960px;}
+      a{border-bottom:1px solid #ccc;color:#00c;text-decoration:none;}
+      body{margin:20px auto;width:500px;}
     </style>
   </head>
   <body>
@@ -55,7 +56,7 @@ __END__
   <script type="text/javascript">
   $(function(){
     $().onloadEvents();
-  }
+  };
   </script>
   </body>
 </html>
