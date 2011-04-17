@@ -61,6 +61,9 @@ __END__
   </body>
 </html>
 
+@@admin
+    <p>This is the admin page.</p>
+
 @@ index
     <p>This is the logged-in page.</p>
 
